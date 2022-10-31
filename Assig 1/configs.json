@@ -1,0 +1,5 @@
+{
+    "blocksize":8,
+    "use_noise":1,
+    "CRC_poly":[2]
+}
