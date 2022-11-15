@@ -173,7 +173,7 @@ int main()
             }
         }
         if (i == n)
-        { // Channel here
+        {
             char *temp = (char *)malloc(sizeof(char) * FRAMESIZE);
             int *data = (int *)malloc(sizeof(int) * FRAMESIZE * MAXSEND);
             int cnt = 0;
@@ -187,7 +187,6 @@ int main()
 
             while (1)
             {
-                // sem_wait(channel);
                 readmsg(node_to_channel[cnt], temp);
 
                 for (int j = 0; j < MAXSEND * FRAMESIZE; j++)
@@ -206,7 +205,6 @@ int main()
                     }
                     memset(data, 0, sizeof(int) * FRAMESIZE * MAXSEND);
                 }
-                // printf("\nSent\n");
             }
             for (int j = 0; j < n; j++)
             {
@@ -231,11 +229,6 @@ int main()
                         frame[j] += (data[MAXSEND * j + k] * table[4][i][k]);
                 }
 
-                // for (int j = 0; j < 5; j++)
-                // {
-                //     printf("Here\n");
-                //     printf("%d ", frame[j]);
-                // }
 
                 for (int j = 0; j < FRAMESIZE; j++)
                     msg[j] = frame[j] / MAXSEND;
@@ -247,7 +240,7 @@ int main()
         }
     }
     else
-    { // sender here
+    { 
         close(node_to_channel[i][0]);
         char *buffer = (char *)malloc(FRAMESIZE * sizeof(char));
 

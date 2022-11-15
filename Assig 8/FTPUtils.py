@@ -47,6 +47,29 @@ def dataRecvOp(fil,clientAddr,serverAddr):
     TCPsock.close()
     op.close()
 
+def listSendOp(clientAddr,serverAddr,lis):
+    time.sleep(0.5)
+    TCPsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    TCPsock.connect(serverAddr)
+
+    lis = pickle.dumps(lis)
+    TCPsock.send(lis)
+    TCPsock.close()
+
+def listRecvOp(clientAddr,serverAddr):
+    time.sleep(0.5)
+    TCPsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    TCPsock.bind(serverAddr)
+    TCPsock.listen(1)
+
+    conn,addr = TCPsock.accept()
+    lis = conn.recv(1024)
+    lis = pickle.loads(lis)
+
+    print(f"Received list {lis}")
+    conn.close()
+    TCPsock.close()
+
 
 
     

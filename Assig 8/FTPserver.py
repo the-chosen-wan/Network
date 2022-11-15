@@ -4,7 +4,7 @@ import pickle
 import time
 from multiprocessing import Process, Manager
 from threading import Thread
-from FTPUtils import dataRecvOp, dataSendOp
+from FTPUtils import dataRecvOp, dataSendOp, listRecvOp, listSendOp
 import tempfile
 import os
 
@@ -80,10 +80,9 @@ def controlServerRoutine(serverDict):
                 serverDict["SENDER"]=data[1]
                 flag=1
 
-        # if data[0]=="LIST":
-        #     flag = 1
-        #     serverDict["LIST"]=True
-        #     serverDict["SENDER"]=data[1]
+        if data[0]=="LIST":
+            flag = 1
+            serverDict["LIST"]=True
 
         if flag==1:
             ack="FOUND"
@@ -129,18 +128,12 @@ if __name__=='__main__':
             serverDict["RECV"]=False
 
         if serverDict["LIST"]:
-            fil = serverDict["SENDER"]
             lis = os.listdir("server")
-
-            with open(fil,"w") as f:
-                f.write(" ".join(lis))
-
-            t2 = Thread(target=dataSendOp, args=[
-                        fil, dataServerAddr, dataClientAddr])
+            t2 = Thread(target=listSendOp, args=[
+                        dataServerAddr, dataClientAddr,lis])
             t2.start()
             t2.join()
             serverDict["LIST"]=False
-            os.remove(fil)
             
         if serverDict["DEL"]:
             os.remove(serverDict["SENDER"])

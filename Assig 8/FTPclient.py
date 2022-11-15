@@ -4,7 +4,7 @@ import pickle
 import time
 from multiprocessing import Process, Manager
 from threading import Thread
-from FTPUtils import dataRecvOp,dataSendOp
+from FTPUtils import dataRecvOp,dataSendOp,listRecvOp,listSendOp
 import tempfile
 import os
 
@@ -73,15 +73,11 @@ def controlClientRoutine(clientDict):
                 data = pickle.dumps(data)
                 TCPsock.send(data)
 
-            # elif code=="LIST":
-            #     sender = tempfile.NamedTemporaryFile(delete=False)
-            #     recv = tempfile.NamedTemporaryFile(delete=False)
-            #     clientDict["LIST"]=True
-            #     clientDict["RECEIVER"] = recv.name
-
-            #     data = ["LIST",sender.name]
-            #     data = pickle.dumps(data)
-            #     TCPsock.send(data)
+            elif code=="LIST":
+                clientDict["LIST"]=True
+                data = ["LIST"]
+                data = pickle.dumps(data)
+                TCPsock.send(data)
 
             elif code =="DEL":
                 name = input("Enter the name ")
@@ -146,16 +142,11 @@ if __name__=='__main__':
             clientDict["RECV"]=False
 
         if clientDict["LIST"]:
-            fil = clientDict["RECEIVER"]
-            t2 = Thread(target=dataRecvOp, args=[
-                        fil, dataServerAddr, dataClientAddr])
+            t2 = Thread(target=listRecvOp, args=[
+                        dataServerAddr, dataClientAddr])
             t2.start()
             t2.join()
-            with open(fil,"r") as f:
-                data = f.readlines()
-            print(data)
             clientDict["LIST"]=False
-            os.remove(fil)
 
         time.sleep(1)
 
