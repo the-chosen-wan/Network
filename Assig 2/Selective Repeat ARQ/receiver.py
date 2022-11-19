@@ -41,14 +41,12 @@ def receive(mySocket):
         print(f"Received frame {seqno}")
 
         if error == 1:
-            # time.sleep(0.5)
             ret = "nak"+'/'+str(rn)+":"
             print(f"Error in frame {seqno}")
             rn=(rn+1)%window_size
             mySocket.send(ret.encode())
 
         else:
-            #time.sleep(0.5)
             ret = "ack"+"/"+str(rn)+":"
             rn = (rn+1) % window_size
             mySocket.send(ret.encode())

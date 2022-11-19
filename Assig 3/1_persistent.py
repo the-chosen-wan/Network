@@ -45,12 +45,6 @@ class CSMA(threading.Thread):
             self.lock.release()
             totalFrames += 1
             time.sleep(interFrameTime)
-            # else:
-            #     print(f"Frame {cnt} of node {self.index} dropped")
-            #     time.sleep(interFrameTime)
-            
-            # print(f"Frame {cnt} of node {self.index} could not be sent")
-            # print()
             cnt+=1
         return
                     

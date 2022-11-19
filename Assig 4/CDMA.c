@@ -127,6 +127,14 @@ int main()
             }
         }
     }
+
+    for(int j=0;j<8;j++){
+        for(int k=0;k<8;k++)
+            printf("%d ",table[3][j][k]);
+        printf("\n");
+    }
+
+
     sem_t *semaphores[n];
     for (int i = 0; i < n; i++)
     {

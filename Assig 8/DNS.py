@@ -87,9 +87,6 @@ def dnsServerRoutine(label2ip,name2ip,hostAddr):
     return
 
 def queryRoutine(string,label2ip,adj,hostAddr):
-    # hostAddr = UDPsock.getsockname()
-    # UDPsock.close()
-    # time.sleep(1)
     UDPsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     UDPsock.settimeout(10)
     UDPsock.bind(hostAddr)
@@ -116,10 +113,6 @@ def queryRoutine(string,label2ip,adj,hostAddr):
 
     return
         
-
-
-
-
 if __name__ == '__main__':
     manager = Manager()
     name2ip = manager.dict()

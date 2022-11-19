@@ -5,19 +5,12 @@ import copy
 from collections import deque
 import threading
 
-# host = '127.0.0.1'
-# port = 8080
-# mySocket = socket.socket()
-# mySocket.connect((host,port))
 sentframes = deque()
 returnlist= deque()
 total_data=deque()
 window_size=3
 count=0
-# count=0
-# try_resending=True
-# do_receive=False
-# sn=0
+
 
 def createFrame(data):
     countOnes = 0
@@ -43,15 +36,8 @@ def take_input():
         frame=createFrame(data)
         frame=frame+'/'+str(count)
         count=(count+1)%window_size
-        # sentframes.append(frame)
         total_data.append(frame)
         data = input()
-    
-    # for f in sentframes:
-    #     seqno=return_seqno(f)
-    #     print(f"Sent frame {seqno}")
-    #     time.sleep(0.2)
-    #     mySocket.send(f.encode())
     return
 
 def keep_sending(mySocket):
@@ -85,7 +71,6 @@ def try_resending(mySocket):
     while True:
         global returnlist
         global sentframes
-        # try_resending=True
         if len(returnlist)==len(sentframes):
             temp=copy.deepcopy(returnlist)
 
@@ -110,7 +95,6 @@ def try_resending(mySocket):
                 print(f"Resending frame {return_seqno(fr)}")
                 time.sleep(0.2)
         time.sleep(1)
-        # try_resending=False
     
 
 if __name__ == '__main__':
